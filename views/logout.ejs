@@ -1,0 +1,12 @@
+<% include ./partials/header.ejs %>
+<% include ./partials/libs.ejs %>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('rules');
+        window.location.href = "/";
+    });
+</script>
+<% include ./partials/footer.ejs %>

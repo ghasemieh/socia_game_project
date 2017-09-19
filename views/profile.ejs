@@ -1,0 +1,321 @@
+<% include ./partials/header.ejs %>
+
+<div class="container">
+
+    <div class="content transparent">
+        <div class="profile-wrapper">
+            <div class="row">
+                <img src="/images/white-avatar.png" class="img-responsive center-block profile-avatar">
+                <p class="profile-nickname text-center"></p>
+                <div class="text-center dirltr profile-head-icon-wrapper">
+                    <div class="profile-head-iconset">
+                        <img src="/images/joystick-w.png" alt="white joystick" class="profile-head-icon"
+                             title="مجموع بازی‌ها" data-toggle="tooltip" data-placement="top">
+                        <span class="profile-head-gamesCount"></span>
+                    </div>
+                    <div class="profile-head-iconset">
+                        <img src="/images/crown-w.png" alt="white crown" class="profile-head-icon"
+                             title="مجموع امتیازات" data-toggle="tooltip" data-placement="top">
+                        <span class="profile-head-gamesWin"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel profile-panel">
+                        <div class="panel-body">
+                            <p class="invitation-text">با ارسال این لینک برای دوستانتان و ثبت نام آن‌ها از طریق آن در
+                                مسابقه، یک
+                                جان هدیه به شما تعلق خواهد گرفت!</p>
+                            <span id="inv-link"></span>
+                            <i class="fa fa-clone copy-inv-link"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row gameResults">
+
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="getGameResult profile-xo">
+                        <img alt="" src="/images/profile-xo.png" class="img-responsive center-block">
+                        <p class="profile-gameTitle">دوز</p>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="getGameResult profile-dot">
+                        <img alt="" src="/images/profile-dot.png" class="img-responsive center-block">
+                        <p class="profile-gameTitle">نقطه خط</p>
+                    </div>
+                </div>
+
+                <div class="visible-sm clearfix"></div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="getGameResult profile-card">
+                        <img alt="" src="/images/profile-card.png" class="img-responsive center-block">
+                        <p class="profile-gameTitle">کارت حافظه</p>
+                    </div>
+                </div>
+
+                <!--<div class="col-xs-12 col-sm-6 col-md-3">-->
+                    <!--<div class="getGameResult profile-battleship">-->
+                        <!--<img src="/images/profile-battleship.png" class="img-responsive center-block">-->
+                        <!--<p class="profile-gameTitle">کشتی جنگی</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+
+
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <div class="payment-title"><strong>تاریخچه خرید جان</strong></div>
+                    <ul class="payment-list"></ul>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="payment-title"><strong>کسانی که شما دعوت کرده‌اید</strong></div>
+                    <ul class="invitee-list"></ul>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+<% include ./partials/libs.ejs %>
+<script src="/javascripts/jdate.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $.post('/profile/profile-data', {_token: localStorage.getItem('token')})
+            .done(function (result) {
+//                console.log(result);
+                if (result.result) {
+                    $("#profile").slideDown();
+                    var name = result.data.nickname;
+                    $(".profile-nickname").html(name);
+                    var countGames = result.data.playsCount;
+                    $(".profile-head-gamesCount").html(countGames);
+                    var countRecords = result.data.winsCount;
+                    $(".profile-head-gamesWin").html(countRecords);
+
+//                    var hardRemainedLife = result.data.hardRemainedLife;
+//                    var normalRemainedLife = result.data.normalRemainedLife;
+//                    var easyRemainedLife = result.data.easyRemainedLife;
+                    var gamesResults = result.data.gamesResults;
+                    var invitees = result.data.invitees;
+                    var inviteLink = result.data.inviteLink;
+
+//                    var hard = '';
+//                    for (var i = 0; i < hardRemainedLife; i++) {
+//                        hard += "❤";
+//                    }
+//
+//                    var normal = '';
+//                    for (i = 0; i < normalRemainedLife; i++) {
+//                        normal += "❤";
+//                    }
+//
+//                    var easy = '';
+//                    for (i = 0; i < easyRemainedLife; i++) {
+//                        easy += "❤";
+//                    }
+                    var sortedGamesResults = {
+                        xo: gamesResults.xo,
+                        dot: gamesResults.dot,
+                        card: gamesResults.card,
+                        battleship: gamesResults.battleship,
+                    };
+                    for (var i in sortedGamesResults) {
+//                        var gameResultPointer = 'pointer-'+i;
+                        var gameResultPointer = '';
+                        var gameResult = '<div class="col-xs-12 gameResult gameResult-'+i+'" style="display: none;">\
+                            <div class="profile-game-scores">\
+                            <span class="gamePointer  hidden-sm '+gameResultPointer+'"></span><div class="table-responsive">\
+                            <table>\
+                            <tr><td><img src="/images/joystick-g.png" class="hidden-xs" alt="green joystick"><span><span class="">تعداد</span> بازی</span>\
+                            </td><td>'+sortedGamesResults[i].easy.playsCount+'</td></tr>\
+                            <tr><td><img src="/images/crown-g.png" class="hidden-xs" alt="green joystick"><span><span class="">تعداد</span> برد</span>\
+                            </td><td>'+sortedGamesResults[i].easy.winsCount+'</td></tr>\
+                            </table></div></div></div>';
+                        $(".gameResults").append(gameResult);
+                        $(".profile-game-scores").parent(".col-xs-12").first().show();
+                    }
+                    var inviteItems = '';
+                    for (i in invitees) {
+                        inviteItems += '<li class="invitee-item">' + invitees[i].nickname + '</li>';
+                    }
+
+                    if (inviteItems) {
+                        $(".invitee-list").html(inviteItems);
+                    } else {
+                        $(".invitee-list").append('<li class="invitee-item">هنوز هیچ کسی را دعوت نکردید :(</li>');
+                    }
+
+                    $("#inv-link").text(inviteLink);
+
+                }
+            })
+            .fail(function (xhr, status, error) {
+                console.log(xhr, status, error);
+                $("#profile").remove();
+                $.toast({
+                    heading: '<p class="text-right">خطا!</p>',
+                    text: '<a class="btn btn-primary" onclick="refresh()">بارگذاری مجدد</a>',
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: false,
+                    position: 'bottom-right'
+                });
+                return false;
+            });
+
+        $.post('/user/my-payments', {_token: localStorage.getItem('token')})
+            .done(function (result) {
+                if (result.result) {
+//                    console.log(result)
+                    var payments = result.data.charges;
+                    if (payments.length > 0) {
+                        var JDate = require('jdate');
+                        for (var i = 0; i < payments.length; i++) {
+                            var d = new Date(payments[i].createdAt);
+                            var jdate = new JDate(new Date(d.getFullYear(), d.getMonth(), d.getDate()));
+                            $(".payment-list").append('<li class="payment-item">عنوان<span></span><span class="dirltr">'+ jdate.date.join("/") + ' - ' + d.getHours() + ':' + d.getMinutes() +'</span><span>'+payments[i].price+'</span></li>');
+                        }
+                    } else {
+                        $(".payment-list").append('<li class="payment-item">موردی یافت نشد</li>');
+                    }
+                }
+            })
+            .fail(function (xhr, status, error) {
+                console.log(xhr, status, error);
+                $("#profile").remove();
+                $.toast({
+                    heading: '<p class="text-right">خطا!</p>',
+                    text: '<a class="btn btn-primary" onclick="refresh()">بارگذاری مجدد</a>',
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: false,
+                    position: 'bottom-right'
+                });
+                return false;
+            });
+//        select invitation link by click
+        $("#inv-link, .copy-inv-link").on('click', function () {
+            var sel, range;
+            var el = $("#inv-link")[0];
+            if (window.getSelection && document.createRange) { //Browser compatibility
+                sel = window.getSelection();
+                if (sel.toString() == '') { //no text selection
+                    window.setTimeout(function () {
+                        range = document.createRange(); //range object
+                        range.selectNodeContents(el); //sets Range
+                        sel.removeAllRanges(); //remove all ranges from selection
+                        sel.addRange(range);//add Range to a Selection.
+                    }, 1);
+                }
+            } else if (document.selection) { //older ie
+                sel = document.selection.createRange();
+                if (sel.text == '') { //no text selection
+                    range = document.body.createTextRange();//Creates TextRange object
+                    range.moveToElementText(el);//sets Range
+                    range.select(); //make selection.
+                }
+            }
+            var txt = $("#inv-link").text();
+            copyTextToClipboard(txt);
+
+
+        });
+//        $(window).on("resize", function () {
+            $(".getGameResult").each(function (i) {
+//                var par = $(this).parent();
+                var img = $(this).find("img");
+                var img_top = img.offset().top;
+                var img_left = img.offset().left;
+                var img_height = img.outerHeight();
+                var img_width = img.outerWidth();
+//                var top = img_top + img_height / 2;
+//                var left = img_width ;
+//                var left = img.outerWidth();
+//                var left = img.outerWidth();
+                console.log(i+1+'-------');
+                console.log("img_top", img_top);
+                console.log("img_left", img_left);
+                console.log("img_height", img_height);
+                console.log("img_width", img_width);
+//                var right = ($(window).width() - (img.offset().left + img.outerWidth()));
+//                img.next(".profile-gameTitle").offset({ left: left })
+//                img.next(".profile-gameTitle").css("left", left);
+            });
+//        });
+        $('.getGameResult').first().css("color", "#009688");
+        $('.getGameResult').click(function () {
+            var $this = $(this);
+            $(".getGameResult").removeAttr("style").removeClass("getGameResultSelected");;
+            $this.css("color", "#009688").addClass("getGameResultSelected");
+            var left = $this.offset().left - $(".gameResults").offset().left;
+            var right = $(window).width() - left;
+            var width = $this.outerWidth();
+            $(".gameResult").hide();
+           if ($this.hasClass("profile-xo")) {
+               var i = 'xo';
+               var float = 'right';
+           } else if ($this.hasClass("profile-dot")) {
+               var i = 'dot';
+               var float = 'right';
+           } else if ($this.hasClass("profile-card")) {
+               var i = 'card';
+               var float = 'left';
+           } else if ($this.hasClass("profile-battleship")) {
+               var i = 'battleship';
+               var float = 'left';
+           }
+            $(".gameResult-"+i).find(".gamePointer").css("left", left+width-40);
+           $(".gameResult-"+i).find(".profile-game-scores").css("float", float);
+            $(".gameResult-"+i).fadeIn();
+        });
+
+        $(window).on("resize", function() {
+           $(".getGameResultSelected").trigger("click");
+        });
+
+    });
+
+    function copyTextToClipboard(text) {
+        var textArea = document.createElement("textarea");
+
+        textArea.style.position = 'fixed';
+        textArea.style.top = 0;
+        textArea.style.left = 0;
+        textArea.style.width = '2em';
+        textArea.style.height = '2em';
+        textArea.style.padding = 0;
+        textArea.style.border = 'none';
+        textArea.style.outline = 'none';
+        textArea.style.boxShadow = 'none';
+        textArea.style.background = 'transparent';
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            var successful = document.execCommand('copy');
+            var msg = successful ? 'successful' : 'unsuccessful';
+//            console.log('Copying text command was ' + msg);
+        } catch (err) {
+//            console.log('Oops, unable to copy');
+        }
+        document.body.removeChild(textArea);
+    }
+
+</script>
+<% include ./partials/footer.ejs %>

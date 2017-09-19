@@ -1,0 +1,286 @@
+<% include ./partials/header.ejs %>
+<div class="container">
+    <div class="row games_wrapper content transparent"></div>
+</div>
+
+
+<% include ./partials/libs.ejs %>
+<script src="/javascripts/jdate.min.js"></script>
+<% include ./partials/footer.ejs %>
+
+
+<script>
+
+
+    $.post('/games')
+        .done(function (games) {
+//            return;
+//            console.log(games)
+            var game, gameType, gameBtn, gameTitle;
+            for (var i = 0; i < games.length; i++) {
+                if (games[i].available) {
+                    gameType = games[i].gameType;
+                    switch (gameType) {
+                        case "xo":
+                            gameTitle = '<%= _.localize.translate("gameXOt") %>';
+                            break;
+                        case "dot":
+                            gameTitle = '<%= _.localize.translate("gameDot") %>';
+                            break;
+                        case "card":
+                            gameTitle = '<%= _.localize.translate("gameCard") %>';
+                            break;
+                        case "battleship":
+                            gameTitle = '<%= _.localize.translate("gameBattleship") %>';
+                            break;
+                    }
+                    switch (games[i].status) {
+                        case "comingSoon":
+                            var initialTimeToStart = games[i].timeToStart;
+                            var toStart = secondsToString(games[i].timeToStart);
+                            gameBtn = '<p class="comingsoon_game"><span id="timeToStart_' + gameType + '">' + toStart + '</span><i class="fa fa-clock-o"></i></p>';
+                            runTimer(gameType, initialTimeToStart);
+                            break;
+
+                        case "onFire":
+                            gameBtn = '<a href="/play/' + gameType + '/easy" class="btn btn-primary game__link">بزن بریم</a>';
+                            break;
+
+                        case "finished":
+                            var txt = games[i].winner;
+                            gameBtn = '<p class="finished_game">' + txt + '</p>';
+                            break;
+                    }
+
+                    game = '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><div class="game '+gameType+'"><p class="text-center game__title">'+gameTitle+'</p><a href="./warm-up/' + gameType + '/easy" class="btn btn-gray game__warmup hidden">دستگرمی</a>' + gameBtn +'</div></div>';
+                    $(".games_wrapper").append(game);
+                }
+            }
+
+        });
+
+
+    // token
+    var token = localStorage.getItem('token');
+
+    // user
+    var user = localStorage.getItem('user');
+    if (user) {
+        user = JSON.parse(user);
+    }
+
+    // show modal
+    function showGameLevels(levels, userLevels) {
+        var i;
+        var text = '';
+        var disabled;
+        var level;
+
+        if (user) {
+            for (i in userLevels) {
+                level = userLevels[i];
+                levels[level].active = true;
+            }
+        }
+
+        for (i in levels) {
+            disabled = '';
+            level = levels[i];
+            if (!level.active) {
+                disabled = 'disabled';
+            }
+            if (disabled) {
+                text += '<a class="btn btn-info btn-block level" ' + disabled + '>' + level.title + '</a>';
+            } else {
+                text += '<a class="btn btn-info btn-block level" href="' + level.href + '" ' + disabled + '>' + level.title + '</a>';
+            }
+        }
+
+        swal({
+            title: "انتخاب سطح بازی",
+            html: text,
+            showConfirmButton: false,
+            showCancelButton: true,
+            cancelButtonText: 'انصراف',
+            cancelButtonColor: "red"
+        }).catch(swal.noop);
+    }
+
+    // ==================== xo game click
+    //    $(".xo").click(function () {
+    //
+    //        var levels = {
+    //            easy: {
+    //                active: true,
+    //                href: '/play/xo/easy',
+    //                title: 'ساده'
+    //            }
+    //        };
+    //
+    //        var userLevels = ['easy'];
+    //        if (user && user.userLevels.length > 0) {
+    //            userLevels = user.userLevels.card
+    //        }
+    //
+    //        showGameLevels(levels, userLevels);
+    //    });
+
+    // ==================== dot game click
+    $(".dot").click(function () {
+
+        var levels = {
+            easy: {
+                active: true,
+                href: '/play/dot/easy',
+                title: 'ساده'
+            },
+            normal: {
+                active: false,
+                href: '/play/dot/normal',
+                title: 'متوسط'
+            },
+            hard: {
+                active: false,
+                href: '/play/dot/hard',
+                title: 'سخت'
+            }
+        };
+
+        var userLevels = ['easy'];
+        if (user && user.userLevels.length > 0) {
+            userLevels = user.userLevels.card
+        }
+
+        showGameLevels(levels, userLevels);
+    });
+
+
+    // ==================== card game click
+    $(".card").click(function () {
+
+        var levels = {
+            easy: {
+                active: true,
+                href: '/play/card/easy',
+                title: 'ساده'
+            },
+            normal: {
+                active: false,
+                href: '/play/card/normal',
+                title: 'متوسط'
+            },
+            hard: {
+                active: false,
+                href: '/play/card/hard',
+                title: 'سخت'
+            }
+        };
+
+        var userLevels = ['easy'];
+        if (user && user.userLevels.length > 0) {
+            userLevels = user.userLevels.card
+        }
+
+        showGameLevels(levels, userLevels);
+    });
+
+
+    // ==================== battleship game click
+    $(".battleship").click(function () {
+
+        var levels = {
+            easy: {
+                active: true,
+                href: '/play/battleship/easy',
+                title: 'ساده'
+            },
+            normal: {
+                active: false,
+                href: '/play/battleship/normal',
+                title: 'متوسط'
+            },
+            hard: {
+                active: false,
+                href: '/play/battleship/hard',
+                title: 'سخت'
+            }
+        };
+
+        var userLevels = ['easy'];
+        if (user && user.userLevels.length > 0) {
+            userLevels = user.userLevels.card
+        }
+
+        showGameLevels(levels, userLevels);
+    });
+    $('.content').perfectScrollbar();
+
+    // check logged in user
+    $(document).on('click', 'a.game__btn', function (evt) {
+        if (!user) {
+            evt.preventDefault();
+            localStorage.setItem('continueUrl', $(this).attr('href'));
+            return location.href = "/login";
+        }
+    });
+
+    function secondsToString(delta) {
+
+        var days = Math.floor(delta / 86400);
+        delta -= days * 86400;
+        var hours = Math.floor(delta / 3600) % 24;
+        delta -= hours * 3600;
+        var minutes = Math.floor(delta / 60) % 60;
+        delta -= minutes * 60;
+        var seconds = delta % 60;  // in theory the modulus is not required
+
+        var result = "";
+        if (days > 0)
+            result += days + ":";
+
+        result += hours + ":";
+        result += minutes + ":";
+        result += seconds;
+        return result;
+
+//
+        var numdays = Math.floor(seconds / 86400);
+        var numhours = Math.floor((seconds % 86400) / 3600);
+        var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
+        var numseconds = (((seconds % 86400) % 3600) % 60);
+        var result = "";
+        if (numdays > 0)
+            result += numdays + " روز و ";
+        if (numhours > 0)
+            result += numhours + " ساعت و ";
+        result += numminutes + " دقیقه و ";
+        result += numseconds + " ثانیه";
+        return result;
+    }
+
+    function runTimer(id, initialTimeToStart) {
+        setInterval(function () {
+            if (initialTimeToStart >= 0) {
+                var newTimeToStart = secondsToString(initialTimeToStart);
+                $('#timeToStart_' + id + '').text(newTimeToStart);
+                initialTimeToStart -= 1;
+            }else {
+                location.reload();
+            }
+        }, 1000);
+    }
+
+
+
+</script>
+<!— Hotjar Tracking Code for moliran.com —>
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:605624,hjsv:5};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+</script>

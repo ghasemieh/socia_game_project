@@ -1,0 +1,91 @@
+<% include ./partials/head.ejs %>
+
+<div class="container-fluid">
+    <div class="row">
+        <!--<div class="col-md-2 menu-main">-->
+        <!--<div class="logo">-->
+        <!--<h2>moliran</h2>-->
+        <!--</div>-->
+        <!--<ul class="menu">-->
+        <!--<li class="menu-item"><a href="#">بازی ها</a></li>-->
+        <!--<li class="menu-item"><a href="#">کاربران</a></li>-->
+        <!--<li class="menu-item"><a href="#">عضویت </a></li>-->
+        <!--<li class="menu-item"><a href="#">دعوت </a></li>-->
+        <!--</ul>-->
+
+        <!--</div>-->
+        <div class="col-md-12 main">
+            <div class="col-md-6 games">
+                <div class="col-md-2">
+                    <i class="fa fa-play"></i>
+                </div>
+                <div class="col-md-5">
+                    <h3 id="todayGames">بازیابی اطلاعات ...</h3><h5>بازی های امروز</h5>
+                </div>
+                <div class="col-md-5">
+                    <h3 id="totalGames">بازیابی اطلاعات ...</h3><h5>بازی کل</h5>
+                </div>
+                <!--<div class="col-md-12 links"><a href="#">بیشتر ...</a></div>-->
+            </div>
+            <div class="col-md-6 singups">
+                <div class="col-md-2">
+                    <i class="fa fa-users"></i>
+                </div>
+                <div class="col-md-5">
+                    <h3 id="todaySignup">بازیابی اطلاعات ...</h3><h5>عضویت های امروز</h5>
+                </div>
+                <div class="col-md-5">
+                    <h3 id="totalSignup">بازیابی اطلاعات ...</h3><h5>کل اعضا</h5>
+                </div>
+                <!--<div class="col-md-12 links"><a href="#">بیشتر ...</a></div>-->
+            </div>
+            <div class="col-md-6 invites">
+                <div class="col-md-2">
+                    <i class="fa fa-user-plus"></i>
+                </div>
+                <div class="col-md-5">
+                    <h3 id="todayInvites">بازیابی اطلاعات ...</h3><h5>دعوت های امروز</h5>
+                </div>
+                <div class="col-md-5">
+                    <h3 id="totalInvites">بازیابی اطلاعات ...</h3><h5>کل دعوت ها</h5>
+                </div>
+                <!--<div class="col-md-12 links"><a href="#">بیشتر ...</a></div>-->
+            </div>
+            <div class="col-md-6 invites-singups">
+                <div class="col-md-2">
+                    <i class="fa fa-list"></i>
+                </div>
+                <div class="col-md-5">
+                    <h3>بازیابی اطلاعات ...</h3><h5>بازی های امروز</h5>
+                </div>
+                <div class="col-md-5">
+                    <h3>بازیابی اطلاعات ...</h3><h5>بازی های امروز</h5>
+                </div>
+                <!--<div class="col-md-12 links"><a href="#">بیشتر ...</a></div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<% include ./partials/libs.ejs %>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+           method:"POST",
+            type:"json",
+            url: "/moliran-admin/info",
+            success:function (data) {
+                console.log(data);
+                $("#todayGames").text(data.plays.today);
+                $("#totalGames").text(data.plays.all);
+                $("#todaySignup").text(data.users.today);
+                $("#totalSignup").text(data.users.all);
+                $("#todayInvites").text(data.invites.today);
+                $("#totalInvites").text(data.invites.all);
+
+            }
+        });
+    });
+</script>
+
+
+<% include ./partials/footer.ejs %>

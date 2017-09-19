@@ -1,0 +1,33 @@
+<% include ./partials/header.ejs %>
+
+
+<div class="container offset-top">
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12 col-xs-offset-0">
+            <% if(typeof error == "string"){ %>
+            <p class="alert alert-danger"><%= error %></p>
+            <% } %>
+            <div class="login-wrapper">
+                <div class="text-center"><span class="fa fa-user-secret fa-5x"></span></div>
+                <form method="post" action="/login/code">
+                    <input type="hidden" name="phone" value="<%= phone %>">
+                    <div class="form-group">
+                        <label for="phone">
+                            <%= _.localize.translate("code") %>
+                        </label>
+                        <input type="text" class="form-control text-center dirltr" id="phone"
+                               name="code"
+                               placeholder="مثال: 1234" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary center-block" id="btn-register">
+                        <%= _.localize.translate("submit") %>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<% include ./partials/libs.ejs %>
+<% include ./partials/footer.ejs %>

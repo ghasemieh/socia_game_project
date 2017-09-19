@@ -1,0 +1,187 @@
+<% include ./partials/header.ejs %>
+
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="content">
+                <div class="landing">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <img src="./images/Group-16.png" alt="moliran money" class="img-responsive center-block landing__img">
+                        </div>
+                        <div class="col-sm-6">
+                            <!--<div class="countDown-timer text-center">-->
+                                <!--<span class="landing__banner__time&#45;&#45;hour">-->
+                                <!--<span class="remain-day" id="remain-hour"></span>-->
+                                <!--<span>ساعت :</span>-->
+                            <!--</span>-->
+                                <!--<span class="landing__banner__time&#45;&#45;min">-->
+                                <!--<span class="remain-min" id="remain-min"></span>-->
+                                <!--<span>دقیقه :</span>-->
+                            <!--</span>-->
+                                <!--<span class="landing__banner__time&#45;&#45;sec">-->
+                                <!--<span class="remain-sec" id="remain-sec"></span>-->
+                                <!--<span> ثانیه</span>-->
+                                    <!--<span>تا شروع بازی</span>-->
+                                    <!--<p class="landing__banner__time" id="landing__banner__time">-->
+                            <!--</span>-->
+                                <p id="countdown-timer">
+                                    <div></div>
+                                </p>
+                            </div>
+                            <h2 class="landing__title">بازی کنید جایزه ببرید</h2>
+                            <p class="landing__description">هر شب برای نفر اول 100000 تومان و برای نفر دوم و سوم و چهارم نفری 50000 </p>
+                            <a href="/games" class="btn btn-primary ">شروع بازی</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="row hidden">
+        <div class="col-xs-12">
+            <div class="landing">
+
+                <h1>
+                    <span class="landing__title">بازی کنید جایزه ببرید</span>
+                </h1>
+                <h2>
+                    <span class="landing__subtitle">بازی کنید برنده شوید</span>
+                </h2>
+                <p>
+                    <span class="landing__meta">بدون قرعه‌کشی یک <span
+                                class="landing__meta--strong">تبلت</span> ببرید</span>
+                </p>
+            </div>
+        </div>
+        <div class="col-xs-12 banner-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="landing__banner">
+                            <a href="" data-toggle="modal" data-target=".winner-modal">
+                            <img src="images/tablet.png" alt="" class="landing__banner__tablet hidden-xs">
+                            </a>
+                            <a href="/games" class="landing__banner__link">ورودبه لیگ رمضانه</a>
+                            <p class="landing__banner__hint">
+                                <a href="/rules" class="landing__banner__hint__link">قضیه چیه؟!</a>
+                            </p>
+                            <a href="" data-toggle="modal" data-target=".loser-modal">
+                            <img src="images/clock.png" alt="" class="landing__banner__clock hidden-xs">
+                            </a>
+                            <p class="landing__banner__time" id="landing__banner__time">
+                            <span class="landing__banner__time--day">
+                                <span class="remain-day" id="remain-day"></span>
+                                <span>روز :</span>
+                            </span>
+                                <span class="landing__banner__time--min">
+                                <span class="remain-min" id="remain-min"></span>
+                                <span>دقیقه :</span>
+                            </span>
+                                <span class="landing__banner__time--sec">
+                                <span class="remain-sec" id="remain-sec"></span>
+                                <span> ثانیه</span>
+                            </span>
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="/javascripts/jquery.min.js"></script>
+<script>
+var remainingTimeToFreshStart;
+var remainigTimeToFinish;
+jQuery.ajax({
+    type : "GET",
+    url : '/play/remainingTime',
+    success : function (data) {
+        console.log(data)
+        if(data.deadEnd.remaining > data.freshStart.remaining){
+            remainingTimeToFreshStart = data.freshStart.remaining;
+            runTimer(remainingTimeToFreshStart)
+        }
+    }
+})
+
+    function secondsToString(delta) {
+
+        var days = Math.floor(delta / 86400);
+        delta -= days * 86400;
+        var hours = Math.floor(delta / 3600) % 24;
+        delta -= hours * 3600;
+        var minutes = Math.floor(delta / 60) % 60;
+        delta -= minutes * 60;
+        var seconds = delta % 60;  // in theory the modulus is not required
+
+        var result = "";
+        if (days > 0)
+            result += "<span> '+ days +'</span><span>روز و </span>";
+        if (hours > 0)
+        result += "<span>" + hours +"</span><span>ساعت و </span>";
+        result += "<span>" + minutes +"</span><span>دقیقه و </span>";
+        result += "<span>" + seconds +"</span><span>ثانیه تا شروع بازی  </span>";
+        return result;
+
+
+        var numdays = Math.floor(seconds / 86400);
+        var numhours = Math.floor((seconds % 86400) / 3600);
+        var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
+        var numseconds = (((seconds % 86400) % 3600) % 60);
+        var result = "";
+        if (numdays > 0)
+            result += numdays + " روز و ";
+        if (numhours > 0)
+            result += numhours + " ساعت و ";
+        result += numminutes + " دقیقه و ";
+        result += numseconds + " ثانیه";
+        return result;
+    }
+
+
+
+    function runTimer( initialTimeToStart) {
+        setInterval(function () {
+            if (initialTimeToStart >= 0) {
+                var newTimeToStart = secondsToString(initialTimeToStart);
+                $("#countdown-timer").html(newTimeToStart);
+                initialTimeToStart -= 1;
+            }else {
+//                location.reload();
+            }
+        }, 1000);
+    }
+//runTimer(remainingTimeToFreshStart)
+
+
+//
+
+</script>
+
+<!— Hotjar Tracking Code for moliran.com —>
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:605624,hjsv:5};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+<% include ./partials/libs.ejs %>
+<% include ./partials/footer.ejs %>

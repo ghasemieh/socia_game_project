@@ -1,0 +1,60 @@
+<% include ./partials/header.ejs %>
+
+<div>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="content">
+                    <h2 class="rules-title">درباره بازی‌ها</h2>
+                    <p class="rules-text text-right" id="about"></p>
+                    <hr>
+                    <h2 class="rules-title">قوانین بازی</h2>
+                    <ul class="nav nav-tabs" role="tablist"></ul>
+                    <div class="rules-text tab-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ./partials/libs.ejs %>
+<script>
+    $(document).ready(function () {
+
+
+        $.post('/rules/rules', {})
+            .done(function (result) {
+                if (result.result) {
+                    var navTabs = '';
+                    var contentTabs = '';
+                    for (i in result.data.games) {
+                        navTabs += "<li role='presentation'><a href='#" + i + "' aria-controls='" + i + "' role='tab' data-toggle='tab'>" + result.data.games[i].title + "</a></li>";
+                        contentTabs +=
+                            "<div role='tabpanel' class='tab-pane' id='" + i + "'>" +
+                            result.data.games[i].description
+                            + "</div>";
+                    }
+                    $('#about').html(result.data.aboutGames);
+                    $(".nav-tabs").html(navTabs);
+                    $(".tab-content").html(contentTabs);
+                    $(".nav-tabs li:first-child").addClass("active");
+                    $(".tab-content div:first-child").addClass("active");
+                }
+            })
+            .fail(function (xhr, status, error) {
+                console.log(xhr, status, error);
+                $.toast({
+                    heading: '<p class="text-right">خطا!</p>',
+                    text: '<a class="btn btn-primary" onclick="refresh()">بارگذاری مجدد</a>',
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: false,
+                    position: 'bottom-right'
+                });
+                return false;
+            });
+
+
+    });
+</script>
+<% include ./partials/footer.ejs %>

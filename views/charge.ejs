@@ -1,0 +1,354 @@
+<% include ./partials/header.ejs %>
+
+<div class="container">
+    <div class="row">
+        <div class="content transparent lifes-wrapper">
+
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <div class="game life10">
+                    <a class="btn btn-primary countLife">10</a>
+                    <div class="lifeTitle">
+                        <p>۱۰ جان و ۲ جان هدیه</p>
+                        <p>۲۰۰۰ تومان</p>
+                    </div>
+                    <a href="#/" class="btn btn-primary getLife" data-life="7">خرید</a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 hidden">
+                <div class="game life5">
+                    <a class="btn btn-primary countLife">5</a>
+                    <div class="lifeTitle">
+                        <p>۵ جان</p>
+                        <p>۱۰۰۰ تومان</p>
+                    </div>
+                    <a href="#/" class="btn btn-primary getLife" data-life="5">خرید</a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 hidden">
+                <div class="game life3">
+                    <a class="btn btn-primary countLife">3</a>
+                    <div class="lifeTitle">
+                        <p>۳ جان</p>
+                        <p>۷۰۰ تومان</p>
+                    </div>
+                    <a href="#/" class="btn btn-primary getLife" data-life="3">خرید</a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <div class="game life2">
+                    <a class="btn btn-primary countLife">2</a>
+                    <div class="lifeTitle">
+                        <p>۱ جان</p>
+                        <p>۲۰۰ تومان</p>
+                    </div>
+                    <a href="#/" class="btn btn-primary getLife" data-life="3">خرید</a>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<% include ./partials/libs.ejs %>
+
+<script>
+    $(document).ready(function () {
+//        swal({
+//            title: "مرحله پرداخت",
+//            html: "کد داخل پیامک را وارد کنید:",
+//            input: 'radio',
+//            showCancelButton: true,
+//            confirmButtonColor: '#3085d6',
+//            cancelButtonColor: '#d33',
+//            confirmButtonText: 'ثبت',
+//            cancelButtonText: 'لغو',
+//            allowOutsideClick: false,
+//            preConfirm: function (text) {
+//                return new Promise(function (resolve, reject) {
+//                    if (text === '') {
+//                        reject('کد را وارد کنید')
+//                    } else {
+//                        resolve()
+//                    }
+//                })
+//            }
+//        })
+//        check if login
+        var token = localStorage.getItem('token');
+        if (!token) {
+            return window.location.href = '/login';
+        }
+        $(document).on("click", "#showLaws", function (e) {
+            e.preventDefault();
+            var life = $(this).data("life");
+            swal({
+                title: "قوانین",
+                text: "این یک سرویس بازی غیر اشتراکی می باشد. به دلیل هزینه دار بودن این سرویس، چنانچه 16 سال یا کمتر دارید، لطفا از والدین یا قیم خود اجازه بگیرید. پراخت هزینه این سرویس تنها برای کاربران همراه اول و ایرانسل امکان پذیر می باشد. با کلیک بر روی گزینه تایید، امکان استفاده از بازی های پولی را نیز خواهید داشت و هزینه آن تنها 200 تومان به ازای هر «جان» در هر بازی می باشد که به صورت حساب تلفن همراه شما منظور خواهد شد و یا از شارژ شما کسر می شود. در صورت پیروزی در یک بازی، برای بازی مجدد نیازی به شارژ مجدد نخواهد بود و در صورت باخت، هزینه پرداختی برای یک بازی (معادل فقط 200 تومان) سوخت خواهد شد و برای بازی مجدد می بایست از موجودی حسابتان استفاده کنید و یا در صورت ناکافی بودن موجودی در حساب، می بایست اقدام به شارژ حساب نمایید. به جهت غیر اشتراکی بودن سرویس، موضوع لغو اشتراک نیز وجود ندارد. با عضویت در این سرویس، شما تمامی شرایط و قوانین را مطالعه و پذیرفته اید و پیام های متنی ای را در زمینه توسعه بازاریابی، به صورت رایگان از ما دریافت خواهید کرد.",
+                allowEscapeKey: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'قبول دارم',
+            }).then(function () {
+                $.ajax({
+                    method: "POST",
+                    url: "/charge/buy/" + life,
+                    data: {_token: localStorage.getItem("token")},
+                    success: function (result) {
+//                    console.log(result);
+                        if (result.result) {
+                            var uniqueId = result.data.uniqueId,
+                                transactionId = result.data.transactionId;
+                            swal({
+                                title: "مرحله پرداخت",
+                                html: "کد داخل پیامک را وارد کنید:",
+                                input: 'text',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'ثبت',
+                                cancelButtonText: 'لغو',
+                                allowOutsideClick: false,
+                                preConfirm: function (text) {
+                                    return new Promise(function (resolve, reject) {
+                                        if (text === '') {
+                                            reject('کد را وارد کنید')
+                                        } else {
+                                            resolve()
+                                        }
+                                    })
+                                }
+                            }).then(function (pin) {
+
+                                    $.ajax({
+                                        method: "POST",
+                                        url: "/charge/pay/",
+                                        data: {
+                                            _token: localStorage.getItem("token"),
+                                            uniqueId: uniqueId,
+                                            transactionId: transactionId,
+                                            pin: pin,
+                                        },
+                                        success: function (result) {
+//                                        console.log(result);
+                                            if (result.result) {
+                                                swal({
+                                                    title: "تعداد جان شما افزوده شده",
+                                                    text: "در حال انتقال به صفحه بازی‌ها...",
+                                                    type: "success",
+                                                    allowEscapeKey: false,
+                                                    showConfirmButton: false
+                                                })
+                                                setTimeout(function () {
+                                                    return window.location.href = "/games";
+                                                }, 1000)
+                                            } else {
+                                                console.log(result.message);
+                                            }
+                                        }
+                                    });
+                                }, function (dismiss) {
+                                    if (dismiss === 'cancel') {
+                                        return false;
+                                    }
+                                }
+                            );
+                        }
+                        else {
+                            console.log("result is not true:", result.message);
+                        }
+                    }
+                })
+            });
+        })
+        $(".getLife").click(function (e) {
+            e.preventDefault();
+            var life = $(this).data("life");
+            $.post('/user/my-payments', {_token: localStorage.getItem('token')})
+                .done(function (result) {
+                    console.log(result)
+                    if (result.result) {
+                        var payments = result.data.charges;
+                        if (payments.length == 0) {
+                            swal({
+                                title: "قوانین",
+                                text: "این یک سرویس بازی غیر اشتراکی می باشد. به دلیل هزینه دار بودن این سرویس، چنانچه 16 سال یا کمتر دارید، لطفا از والدین یا قیم خود اجازه بگیرید. پراخت هزینه این سرویس تنها برای کاربران همراه اول و ایرانسل امکان پذیر می باشد. با کلیک بر روی گزینه تایید، امکان استفاده از بازی های پولی را نیز خواهید داشت و هزینه آن تنها 200 تومان به ازای هر «جان» در هر بازی می باشد که به صورت حساب تلفن همراه شما منظور خواهد شد و یا از شارژ شما کسر می شود. در صورت پیروزی در یک بازی، برای بازی مجدد نیازی به شارژ مجدد نخواهد بود و در صورت باخت، هزینه پرداختی برای یک بازی (معادل فقط 200 تومان) سوخت خواهد شد و برای بازی مجدد می بایست از موجودی حسابتان استفاده کنید و یا در صورت ناکافی بودن موجودی در حساب، می بایست اقدام به شارژ حساب نمایید. به جهت غیر اشتراکی بودن سرویس، موضوع لغو اشتراک نیز وجود ندارد. با عضویت در این سرویس، شما تمامی شرایط و قوانین را مطالعه و پذیرفته اید و پیام های متنی ای را در زمینه توسعه بازاریابی، به صورت رایگان از ما دریافت خواهید کرد.",
+                                allowEscapeKey: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'قبول دارم',
+                            }).then(function () {
+                                console.log("hi")
+                                $.ajax({
+                                    method: "POST",
+                                    url: "/charge/buy/" + life,
+                                    data: {_token: localStorage.getItem("token")},
+                                    success: function (result) {
+//                    console.log(result);
+                                        if (result.result) {
+                                            var uniqueId = result.data.uniqueId,
+                                                transactionId = result.data.transactionId;
+                                            swal({
+                                                title: "مرحله پرداخت",
+                                                html: "کد داخل پیامک را وارد کنید:",
+                                                input: 'text',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#3085d6',
+                                                cancelButtonColor: '#d33',
+                                                confirmButtonText: 'ثبت',
+                                                cancelButtonText: 'لغو',
+                                                allowOutsideClick: false,
+                                                preConfirm: function (text) {
+                                                    return new Promise(function (resolve, reject) {
+                                                        if (text === '') {
+                                                            reject('کد را وارد کنید')
+                                                        } else {
+                                                            resolve()
+                                                        }
+                                                    })
+                                                }
+                                            }).then(function (pin) {
+
+                                                    $.ajax({
+                                                        method: "POST",
+                                                        url: "/charge/pay/",
+                                                        data: {
+                                                            _token: localStorage.getItem("token"),
+                                                            uniqueId: uniqueId,
+                                                            transactionId: transactionId,
+                                                            pin: pin,
+                                                        },
+                                                        success: function (result) {
+//                                        console.log(result);
+                                                            if (result.result) {
+                                                                swal({
+                                                                    title: "تعداد جان شما افزوده شده",
+                                                                    text: "در حال انتقال به صفحه بازی‌ها...",
+                                                                    type: "success",
+                                                                    allowEscapeKey: false,
+                                                                    showConfirmButton: false
+                                                                })
+                                                                setTimeout(function () {
+                                                                    return window.location.href = "/games";
+                                                                }, 1000)
+                                                            } else {
+                                                                console.log(result.message);
+                                                            }
+                                                        }
+                                                    });
+                                                }, function (dismiss) {
+                                                    if (dismiss === 'cancel') {
+                                                        return false;
+                                                    }
+                                                }
+                                            );
+                                        }
+                                        else {
+                                            console.log("result is not true:", result.message);
+                                        }
+                                    }
+                                })
+                            });
+                        } else {
+                            swal({
+                                title: 'قوانین و مقررات',
+                                input: 'checkbox',
+                                inputValue: 1,
+                                inputPlaceholder: '<a href="#/" id="showLaws" data-life="' + life + '" style="margin-right: 10px">قوانین و مقررات</a> را قبول دارم',
+                                confirmButtonText: 'ادامه <i class="fa fa-arrow-left"></i>',
+                                inputValidator: function (result) {
+                                    return new Promise(function (resolve, reject) {
+                                        if (result) {
+                                            resolve()
+                                        } else {
+                                            reject('پذیرفتن قوانین الزامی است !')
+                                        }
+                                    })
+                                }
+                            }).then(function (result) {
+                                $.ajax({
+                                    method: "POST",
+                                    url: "/charge/buy/" + life,
+                                    data: {_token: localStorage.getItem("token")},
+                                    success: function (result) {
+//                    console.log(result);
+                                        if (result.result) {
+                                            var uniqueId = result.data.uniqueId,
+                                                transactionId = result.data.transactionId;
+                                            swal({
+                                                title: "مرحله پرداخت",
+                                                html: "کد داخل پیامک را وارد کنید:",
+                                                input: 'text',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#3085d6',
+                                                cancelButtonColor: '#d33',
+                                                confirmButtonText: 'ثبت',
+                                                cancelButtonText: 'لغو',
+                                                allowOutsideClick: false,
+                                                preConfirm: function (text) {
+                                                    return new Promise(function (resolve, reject) {
+                                                        if (text === '') {
+                                                            reject('کد را وارد کنید')
+                                                        } else {
+                                                            resolve()
+                                                        }
+                                                    })
+                                                }
+                                            }).then(function (pin) {
+
+                                                    $.ajax({
+                                                        method: "POST",
+                                                        url: "/charge/pay/",
+                                                        data: {
+                                                            _token: localStorage.getItem("token"),
+                                                            uniqueId: uniqueId,
+                                                            transactionId: transactionId,
+                                                            pin: pin,
+                                                        },
+                                                        success: function (result) {
+//                                        console.log(result);
+                                                            if (result.result) {
+                                                                swal({
+                                                                    title: "تعداد جان شما افزوده شده",
+                                                                    text: "در حال انتقال به صفحه بازی‌ها...",
+                                                                    type: "success",
+                                                                    allowEscapeKey: false,
+                                                                    showConfirmButton: false
+                                                                })
+                                                                setTimeout(function () {
+                                                                    return window.location.href = "/games";
+                                                                }, 1000)
+                                                            } else {
+                                                                console.log(result.message);
+                                                            }
+                                                        }
+                                                    });
+                                                }, function (dismiss) {
+                                                    if (dismiss === 'cancel') {
+                                                        return false;
+                                                    }
+                                                }
+                                            );
+                                        }
+                                        else {
+                                            console.log("result is not true:", result.message);
+                                        }
+                                    }
+                                })
+                            })
+                        }
+                    }
+                })
+
+
+        })
+    });
+
+</script>
+
+<% include ./partials/footer.ejs %>

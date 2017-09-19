@@ -1,0 +1,46 @@
+<% include ./partials/header.ejs %>
+
+<div class="container">
+    <div class="row">
+        <div class="content transparent">
+
+            <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12 col-xs-offset-0">
+                <div class="login-wrapper text-center">
+                    <div class="text-center">
+                        <img alt="" src="/images/avatar.png" class="register-avatar">
+                    </div>
+                    <form method="post" action="/login">
+                        <input value="<%= caller %>" style="display: none;" type="text" name="caller" id="caller">
+
+                        <div class="text-center">
+                            <h3 class="register-title login-title">ورود به سیستم</h3>
+                            <p class="login-info text-muted">برای ورود به بازی‌ها ابتدا باید وارد سیستم شوید</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">
+                                <%= _.localize.translate("phone") %>
+                            </label>
+                            <input type="text" class="form-control text-center dirltr" id="phone"
+                                   name="phone"
+                                   placeholder="مثال: 09191234567" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary center-block"
+                                id="btn-login"><%= _.localize.translate("submit") %></button>
+                    </form>
+                    <ul class="login-menu login-menu-modifier">
+                        <li class="login-menu__item">
+                            <a href="/" class="login-menu__link">خانه</a>
+                        </li>
+                        <li class="login-menu__item">
+                            <a href="/register" class="login-menu__link">ثبت‌نام</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ./partials/libs.ejs %>
+<% include ./partials/footer.ejs %>
+<!---->

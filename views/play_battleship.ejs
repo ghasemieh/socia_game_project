@@ -1,0 +1,1115 @@
+<% include ./partials/header.ejs %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="content gameBoard gameBoardBattleship">
+                <div class="timer"></div>
+                <div id="battleship_board_game" class="text-center">
+                    <!-- alious -->
+                    <div class="text-center main">
+                        <div class="row text-center">
+                            <div class="col-md-5 col-sm-5 col-xs-12 deck">
+                                <div class="col-md-12 col-sm-12 col-xs-12 deck-row">
+                                    <div class="number">1</div>
+                                    <div class="xs-ship">
+                                        <div class="ship-box x-small-ship-drag-1 x-small-ship" style="background-image: url('/images/1block.png')"></div>
+                                    </div>
+                                    <div class="xs-ship">
+                                        <div class="ship-box x-small-ship-drag-2 x-small-ship" style="background-image: url('/images/1block.png')"></div>
+                                    </div>
+                                    <div class="xs-ship">
+                                        <div class="ship-box x-small-ship-drag-3 x-small-ship" style="background-image: url('/images/1block.png')"></div>
+                                    </div>
+                                    <div class="xs-ship">
+                                        <div class="ship-box x-small-ship-drag-4 x-small-ship" style="background-image: url('/images/1block.png')"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 deck-row">
+                                    <div class="number">2</div>
+                                    <div class="sm-ship">
+                                        <div class="ship-box small-ship-drag-1 small-ship" style="background-image: url('/images/2block.png')"></div>
+                                    </div>
+                                    <div class="sm-ship">
+                                        <div class="ship-box small-ship-drag-2 small-ship" style="background-image: url('/images/2block.png')"></div>
+                                    </div>
+                                    <div class="sm-ship">
+                                        <div class="ship-box small-ship-drag-3 small-ship" style="background-image: url('/images/2block.png')"></div>
+                                    </div>
+                                    <div class="sm-ship">
+                                        <div class="ship-box small-ship-drag-4 small-ship" style="background-image: url('/images/2block.png')"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 deck-row">
+                                    <div class="number">3</div>
+                                    <div class="md-ship">
+                                        <div class="ship-box medium-ship-drag-1 medium-ship" style="background-image: url('/images/3block.png')"></div>
+                                    </div>
+                                    <div class="md-ship">
+                                        <div class="ship-box medium-ship-drag-2 medium-ship" style="background-image: url('/images/3block.png')"></div>
+                                    </div>
+                                    <div class="md-ship">
+                                        <div class="ship-box medium-ship-drag-3 medium-ship" style="background-image: url('/images/3block.png')"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 deck-row">
+                                    <div class="number">4</div>
+                                    <div class="lg-ship">
+                                        <div class="ship-box large-ship-drag-1 large-ship" style="background-image: url('/images/4block.png')"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 buttons-box">
+                                    <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                        <button class="button">
+                                            <span class="text">چینش خودکار</span><i class="fa fa-arrow-circle-down"></i>
+                                        </button>
+
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6 text-left">
+                                        <button class="button">
+                                            <span class="text">چینش مجدد</span><i class="fa fa-arrow-circle-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-sm-7 col-xs-12 board-container text-center" id="board-container"></div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row text-center box-ready">
+                            <div class="col-md-6 col-sm-12 col-xs-12 text-center notification"></div>
+                            <div class="col-md-6 col-sm-12 col-xs-12 text-center"><button class="ready">آماده ی حمله</button></div>
+
+                        </div>
+                    </div>
+                    <!--<div class="container game-board">-->
+                    <!--<div class="row text-center">-->
+                    <!--<div class="col-md-6 col-sm-6 col-xs-12 text-center">-->
+                    <!--<div class="parent-board text-center">-->
+                    <!--<table>-->
+                    <!--<tbody>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x=1 data-cell-pos-y=1>-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x=2 data-cell-pos-y=1>-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5 notAllowed" data-cell-pos-x="5" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6 notAllowed" data-cell-pos-x="6" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7 notAllowed" data-cell-pos-x="7" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8 notAllowed" data-cell-pos-x="8" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                    <!--</table>-->
+                    <!--<div class="ship-table">-->
+
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-6 col-sm-6 col-xs-12 text-center">-->
+                    <!--<div class="parent-board text-center">-->
+                    <!--<table>-->
+                    <!--<tbody>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x=1 data-cell-pos-y=1>-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x=2 data-cell-pos-y=1>-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5 notAllowed" data-cell-pos-x="5" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6 notAllowed" data-cell-pos-x="6" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7 notAllowed" data-cell-pos-x="7" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8 notAllowed" data-cell-pos-x="8" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="1">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="2">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="3">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="4">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="5">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="6">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="7">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="8">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="9">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="table-cell-1" data-cell-pos-x="1" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-2" data-cell-pos-x="2" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-3" data-cell-pos-x="3" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-4" data-cell-pos-x="4" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-5" data-cell-pos-x="5" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-6" data-cell-pos-x="6" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-7" data-cell-pos-x="7" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-8" data-cell-pos-x="8" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-9" data-cell-pos-x="9" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--<td class="table-cell-10" data-cell-pos-x="10" data-cell-pos-y="10">-->
+                    <!--<div class="table-cell-div"></div>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                    <!--</table>-->
+                    <!--<div class="ship-table"></div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<% include ./partials/libs.ejs %>
+<script src="/javascripts/test_client_speed.js"></script>
+<script src="/javascripts/jquery-ui.min.js"></script>
+<script src="/javascripts/socket.io.min.js"></script>
+<script src="/javascripts/battleship-frontend-game.js"></script>
+<script src="/javascripts/circular-countdown.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        // connect to socket
+        var url = window.location.href;
+        var arr = url.split("/");
+        var socketAddress = arr[0] + "//" + arr[2];
+
+        var gameLevel = '<%= gameLevel %>';
+
+        var codeConfirmationDescription = "لطفاً کُد داخل اس ام اس را وارد کنید!";
+        if (gameLevel === 'easy') {
+            codeConfirmationDescription += "<br>" + "برای بازی در مرحله ساده پس از وارد کردن کد تایید از حساب شما ۵۰۰ تومان کسر خواهد شد!";
+        } else if (gameLevel === 'normal') {
+            codeConfirmationDescription += "<br>" + "برای بازی در مرحله متوسط پس از وارد کردن کد تایید از حساب شما ۷۰۰ تومان کسر خواهد شد!";
+        } else if (gameLevel === 'hard') {
+            codeConfirmationDescription += "<br>" + "برای بازی در مرحله سخت پس از وارد کردن کد تایید از حساب شما ۹۰۰ تومان کسر خواهد شد!";
+        }
+
+        var token = localStorage.getItem('token');
+        if (!token) {
+            return window.location.href = '/login';
+        }
+
+        var user = JSON.parse(localStorage.getItem('user'));
+
+        var socket = io(socketAddress, {
+            query: 'token=' + token + '&gameType=' + '<%= gameType %>' + '&gameLevel=' + '<%= gameLevel %>'
+        });
+
+
+        // ========================== Game payment here ========================== //
+
+        /* uniqueId, transactionId, message */
+        socket.on('battleship_waitingForPayment', function (data) {
+            var uniqueId = data.uniqueId;
+            var transactionId = data.transactionId;
+            var message = data.message;
+            if (message === '') {
+
+                swal({
+                    title: "مرحله پرداخت",
+                    html: codeConfirmationDescription,
+                    input: 'text',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'ثبت کُد',
+                    cancelButtonText: 'لغو',
+                    allowOutsideClick: false,
+                    preConfirm: function (text) {
+                        return new Promise(function (resolve, reject) {
+                            if (text === '') {
+                                reject('کُد را وارد کنید!')
+                            } else {
+                                resolve()
+                            }
+                        })
+                    }
+                }).then(function (text) {
+
+                    socket.emit('sendPinConfirmation', {
+                        'pin': text,
+                        'uniqueId': uniqueId,
+                        'transactionId': transactionId
+                    });
+
+                }, function (dismiss) {
+
+                    if (dismiss === 'cancel') {
+                        return window.location.href = "/games";
+                    }
+
+                });
+
+
+            } else {
+
+
+                swal({
+                    title: 'پیام',
+                    text: message,
+                    type: 'info',
+                    confirmButtonText: 'خـُــب',
+                    allowOutsideClick: false
+                }).then(function () {
+                    swal({
+                        title: "مرحله پرداخت",
+                        html: codeConfirmationDescription,
+                        input: 'text',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'ثبت کُد',
+                        cancelButtonText: 'لغو',
+                        allowOutsideClick: false,
+                        preConfirm: function (text) {
+                            return new Promise(function (resolve, reject) {
+                                if (text === '') {
+                                    reject('کُد را وارد کنید!')
+                                } else {
+                                    resolve()
+                                }
+                            })
+                        }
+                    }).then(function (text) {
+
+                        socket.emit('sendPinConfirmation', {
+                            'pin': text,
+                            'uniqueId': uniqueId,
+                            'transactionId': transactionId
+                        });
+
+                    }, function (dismiss) {
+
+                        if (dismiss === 'cancel') {
+                            return window.location.href = "/games";
+                        }
+
+                    });
+                });
+
+
+            }
+
+        });
+
+
+        // ========================== Game error here ========================== //
+
+        // disconnect socket
+        socket.on('disconnect', function (data) {
+            if (data !== "io client disconnect") {
+                swal({
+                    title: "خطا",
+                    text: "ارتباط با سرور قطع شد!",
+                    showConfirmButton: false,
+                    type: "error",
+                    allowOutsideClick: false
+                });
+            }
+        });
+
+
+        // error
+        socket.on('error', function (error) {
+            $("#loading").fadeOut(100);
+            swal({
+                title: "خطا",
+                text: "خطایی در سرور به وجود آمده است!",
+                type: "error",
+                confirmButtonText: "بارگزاری مجدد",
+                allowOutsideClick: false
+            }).then(function () {
+                location.reload();
+            });
+        });
+
+
+        // ========================== Game engine here ========================== //
+
+
+        // waiting for arranging
+
+
+        socket.on('battleship_waitingForArranging', function (data) {
+
+            console.log('battleship_waitingForArranging');
+            console.log(data);
+
+
+
+            var table_arrange = tableArrange(data);
+
+            $(".board-container").append(table_arrange);
+            droppable();
+
+//            $("#game_board").html(arrangeBoard);
+            $(".main").show();
+            $("#loading").fadeOut(100);
+        });
+
+
+        //arranging done
+
+        $(document).on("click",".ready",function () {
+            var shipArray=arrangeDone();
+            console.log(shipArray);
+            socket.emit("battleship_arrangeDone",shipArray);
+
+        })
+
+
+
+        // notification
+        socket.on('battleship_notification', function (notification) {
+            console.log("battleship_notification");
+            console.log(notification);
+
+
+
+//            $("#game").hide();
+            $(".notification").html(notification);
+//            $("#loading").fadeIn(100);
+        });
+
+
+        // waiting for opponent
+        socket.on('battleship_waitingForOpponent', function () {
+            console.log("battleship_waitingForOpponent")
+            $("#game").hide();
+            $("#loading div h5").html("منتظر یافتن حریف");
+            $("#loading").fadeIn(100);
+        });
+
+
+
+
+        // receive next step
+        socket.on('battleship_nextStep', function (data) {
+            $("#loading").fadeOut(100);
+
+            var me = data.gamer1;
+            var opponent = data.gamer2;
+            if (user._id !== me._id) {
+                me = data.gamer2;
+                opponent = data.gamer1;
+            }
+
+            var gameBoard = makeBoard(me, opponent);
+            $("#game_board").html(gameBoard);
+            $("#game").show();
+            $("#loading").fadeOut(100);
+        });
+
+
+
+        $(document).on("click", ".battlefield-cell-content", function () {
+
+            var i = parseInt($(this).attr('data-i'));
+            var j = parseInt($(this).attr('data-j'));
+
+            socket.emit('battleship_shoot', {
+                i: i,
+                j: j
+            });
+        });
+
+    });
+
+
+
+
+    function makeBoard(me, opponent) {
+
+        var shipGrid = me.shipGrid;
+        var ships = me.ships;
+
+        var placeI, placeJ, ship, shipOnMap, position, width, height;
+
+        var gameBoard = '<div class="col-md-12">Mine<div class="text-center battlefield-table-placeholder"><table class="battlefield-table"><tbody>';
+        for (var j = 0; j < shipGrid.length; j++) {
+
+            placeI = '';
+            placeJ = '';
+
+            gameBoard += '<tr class="battlefield-row">';
+            for (var i = 0; i < shipGrid[j].length; i++) {
+
+                shipOnMap = '';
+                for (var k = 0; k < ships.length; k++) {
+                    if (ships[k].i === i && ships[k].j === j) {
+                        ship = ships[k];
+
+                        width = 2;
+                        height = 2;
+
+                        position = 'v';
+                        if (ship.horizontal) {
+                            position = 'h';
+                            width = ship.size * 2;
+                        } else {
+                            height = ship.size * 2;
+                        }
+
+                        shipOnMap = '<div data-size="' + ship.size + '" data-position="' + position + '" class="ship-box ship-box__' + position + ' ui-draggable ship-box__draggable" style="width: ' + width + 'em; height: ' + height + 'em; padding-right: 0px; padding-bottom: 2px;"></div>';
+                    }
+                }
+
+
+                placeI = '';
+                placeJ = '';
+
+                if (j === 0) {
+                    placeJ = i + 1;
+                }
+
+                if (i === 0) {
+                    placeI = j + 1;
+                }
+
+
+                gameBoard += '<td class="battlefield-cell battlefield-cell__empty"><div class="battlefield-cell-content" data-i="' + i + '" data-j="' + j + '"><span class="z"></span>&nbsp;<div class="marker marker__row">' + placeI + '</div><div class="marker marker__col">' + placeJ + '</div>' + shipOnMap + '</div></td>';
+            }
+            gameBoard += '</tr>';
+
+        }
+        gameBoard += '</tbody></table></div></div>';
+
+
+        placeI = null, placeJ = null, ship = null, shipOnMap = null, position = null, width = null, height = null;
+        shipGrid = opponent.shipGrid;
+
+        gameBoard += '<hr><br><br><br><div class="col-md-12">Opponent<div class="text-center battlefield-table-placeholder"><table class="battlefield-table"><tbody>';
+        for (j = 0; j < shipGrid.length; j++) {
+
+            placeI = '';
+            placeJ = '';
+
+            gameBoard += '<tr class="battlefield-row">';
+            for (i = 0; i < shipGrid[j].length; i++) {
+
+                shipOnMap = '';
+
+
+                placeI = '';
+                placeJ = '';
+
+                if (j === 0) {
+                    placeJ = i + 1;
+                }
+
+                if (i === 0) {
+                    placeI = j + 1;
+                }
+
+
+                gameBoard += '<td class="battlefield-cell battlefield-cell__empty"><div class="battlefield-cell-content" data-i="' + i + '" data-j="' + j + '"><span class="z"></span>&nbsp;<div class="marker marker__row">' + placeI + '</div><div class="marker marker__col">' + placeJ + '</div>' + shipOnMap + '</div></td>';
+            }
+            gameBoard += '</tr>';
+
+        }
+        gameBoard += '</tbody></table></div></div>';
+
+        return gameBoard;
+    }
+
+
+</script>
+
+<% include ./partials/footer.ejs %>

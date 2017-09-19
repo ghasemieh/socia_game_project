@@ -1,0 +1,218 @@
+<% include ./partials/header.ejs %>
+
+
+<div class="timer timer-xo"></div>
+<h4 class="text-left" style="margin-left: 20px; display: none;">
+    حریف شما:
+    <span id="opponent"></span>
+</h4>
+<div id="xo_game_board">
+</div>
+
+<div id="loading">
+    <div>
+        <img src="/images/loading.gif" alt=""/>
+        <h5></h5>
+    </div>
+</div>
+
+<% include ./partials/libs.ejs %>
+
+<script>
+    $(document).ready(function () {
+
+        var gameLevel = '<%= gameLevel %>';
+
+        createBoard(getGameData(gameLevel));
+
+        // place a marker
+        $(document).on('click', 'a.xo-btn', function (evt) {
+            evt.preventDefault();
+            var x = parseInt($(this).attr('data-x'));
+            var y = parseInt($(this).attr('data-y'));
+
+            if ($(this).text() == "") {
+
+                placeMarker($(this), x, y);
+
+            } else {
+                swal({
+                    title: "خطا",
+                    text: "این خانه را نمی توانید انتخاب کنید!",
+                    type: "warning",
+                    confirmButtonText: "خـُــب",
+                    allowOutsideClick: false
+                });
+            }
+
+        });
+
+    });
+    function createBoard(data) {
+
+        $('.sweet-overlay').remove();
+        $('.sweet-alert').remove();
+
+        var board = data.board;
+        var gamerTurn = data.gamerTurn;
+        var userX = data.userX;
+        var userO = data.userO;
+        var winner = data.winner;
+
+
+        var yourTurn = false;
+        if (gamerTurn === 'you') {
+            yourTurn = true;
+        }
+
+
+        if (!yourTurn) {
+            $("#loading div h5").html("منتظر پاسخ حریف");
+            $("#loading").fadeIn(100);
+        } else {
+            $("#loading").fadeOut(100);
+        }
+
+        // make board
+        $('div#xo_game_board').html('');
+        for (var i = 0; i < board.length; i++) {
+            for (var j = 0; j < board[i].length; j++) {
+                var xoChar = '';
+                if (board[i][j] !== 0) {
+                    xoChar = board[i][j];
+                }
+
+                var classHtml = 'effect';
+                if (xoChar !== '') {
+                    classHtml = '';
+                }
+
+                $('div#xo_game_board').append('<a data-x="' + i + '" data-y="' + j + '" class="xo-btn ' + classHtml + '">' + xoChar + '</a>');
+            }
+        }
+
+        // set marker
+        var marker = 'x';
+        var opponent = 'Computer';
+        $('div#xo_game_board').append('<span id="xo_marker" style="visibility: hidden;">' + marker + '</span>');
+        $("#opponent").text(opponent);
+        $("#opponent").parent().fadeIn();
+
+        // check the winner
+        if (winner) {
+            alert(winner);
+        }
+
+
+    }
+    function placeMarker(xoBtn, x, y) {
+        xoBtn.text($('span#xo_marker').text());
+        xoBtn.removeClass("effect");
+        alert(x + y);
+    }
+    function getGameData(gameLevel) {
+
+        var data = {};
+
+        data.gamerTurn = 'you';
+        data.userX = 'you';
+        data.userO = 'computer';
+        data.winner = null;
+
+        data.board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+        if (gameLevel === "normal") {
+            data.board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+        } else if (gameLevel === "hard") {
+            data.board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+        }
+
+        return data;
+    }
+
+
+    //fallah
+$(document).ready(function () {
+
+
+
+    function checkModals() {
+
+        var modal = document.getElementsByClassName('swal2-container')[0];
+
+        if (modal != undefined) {
+
+            if ($('.swal2-title').html() == 'مرحله پرداخت') {
+                var inputSwal = $('.swal2-container .swal2-input');
+                inputSwal.val('1234');
+                var swalSubmit = document.getElementsByClassName('swal2-confirm')[0];
+                simulant.fire(swalSubmit, 'click');
+                return false;
+            }
+
+            if ($('.swal2-title').html() == 'خطا') {
+                confirm = document.getElementsByClassName('swal2-confirm')[0];
+                simulant.fire(confirm, 'click');
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+    function rand(min, max) {
+
+        var randNum = Math.floor((Math.random() * max) + min);
+
+        return randNum;
+    }
+    function waiting() {
+        var loading = document.getElementById("loading");
+        if (loading != undefined && loading.style.display == 'block') {
+
+            return true;
+
+
+        }
+        return false;
+
+
+    }
+    function play_xo() {
+
+        if (!checkModals()) {
+            return false;
+        }
+
+        if (!waiting()) {
+            var currentBoard = [];
+
+            $.each($("#xo_game_board a"), function (key, value) {
+                if (!($(value).hasClass('fa-circle-o')) && !($(value).hasClass('fa-close'))) {
+                    currentBoard.push(value);
+                }
+
+            });
+
+            var btn = currentBoard[rand(0, currentBoard.length)];
+
+            if (!currentBoard.length == 0) {
+                simulant.fire(btn, 'click');
+
+            }
+        }
+
+
+        if (gameFinished()) {
+            clearInterval(interval);
+
+        }
+
+    }
+    //play_xo();
+
+});
+    
+
+</script>
+
+<% include ./partials/footer.ejs %>

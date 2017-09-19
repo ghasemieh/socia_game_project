@@ -1,0 +1,30 @@
+<% include ./partials/header.ejs %>
+<% include ./partials/libs.ejs %>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var token = '<%= token %>';
+        var user = '<%- JSON.stringify(user) %>';
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', user);
+
+//        remove 'caller' if any
+        if (localStorage.getItem('caller')) {
+            localStorage.removeItem('caller');
+        }
+
+        var directTo = localStorage.getItem('continueUrl');
+        if (directTo) {
+            localStorage.removeItem('continueUrl');
+        } else {
+            directTo = "/";
+        }
+
+
+
+        window.location.href = directTo;
+    });
+</script>
+<% include ./partials/footer.ejs %>

@@ -1,0 +1,79 @@
+
+
+<% include ./partials/header.ejs %>
+
+
+<div class="container bottomPlayersEachNight">
+    <div class="row">
+        <div class="col-md-12 winner--pageTitle">
+            <div class="container">برنده های امشب مولیران . زمان شروع دور بعدی بازی از ساعت 9 صبح</div>
+        </div>
+        <div class="col-md-3 col-sm-6 text-center winner---first" >
+            <div class="container" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" title="نفر اول">
+                <div>
+                    <img src="./images/crown.png" alt="">
+                </div>
+                <div class="avatar">
+                    <img src="./images/avatar.png" alt="avatar">
+                </div>
+                <div class="name"><h2>aliry</h2></div>
+                <div class="score"><h3>123</h3></div>
+            </div>
+
+        </div>
+        <div class="col-md-3 col-sm-6 text-center winner---second">
+            <div class="container" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" title="نفر دوم" >
+                <div>
+                    <img src="./images/crown(1).png" alt="">
+                </div>
+                <div class="avatar">
+                    <img src="./images/avatar.png" alt="avatar">
+                </div>
+                <div class="name"><h2>aliry</h2></div>
+                <div class="score"><h3>123</h3></div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 text-center winner---third" >
+            <div class="container" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" title="نفر سوم">
+                <div>
+                    <img src="./images/crown(2).png" alt="">
+                </div>
+                <div class="avatar">
+                    <img src="./images/avatar.png" alt="avatar">
+                </div>
+                <div class="name"><h2>aliry</h2></div>
+                <div class="score"><h3>123</h3></div>
+            </div>
+
+        </div>
+        <div class="col-md-3 col-sm-6 text-center winner---forth" >
+            <div class="container" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" title="نفر چهارم">
+                <div>
+                    <img src="./images/crown(3).png" alt="">
+                </div>
+                <div class="avatar">
+                    <img src="./images/avatar.png" alt="avatar">
+                </div>
+                <div class="name"><h2>aliry</h2></div>
+                <div class="score"><h3>123</h3></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<% include ./partials/libs.ejs %>
+<% include ./partials/footer.ejs %>
+
+<script>
+    $(document).ready(function () {
+       $.ajax({
+           method: "POST",
+           url : '/winners',
+           data : {_token: localStorage.getItem("token")},
+           success : function (data) {
+
+           }
+       })
+    });
+</script>

@@ -1,0 +1,115 @@
+
+
+<% include ./partials/header.ejs %>
+
+
+<div class="container bottomPlayersEachNight">
+    <div class="row">
+        <div class="col-md-12 winner--pageTitle">
+            <div class="container date-winner">برنده های <span></span></div>
+        </div>
+        <div class="col-md-3 col-sm-6 text-center winner---first" >
+            <div class="container" data-toggle="tooltip" data-placement="top" data-trigger="hover" title="نفر اول">
+                <div>
+                    <img src="./images/crown.png" alt="">
+                </div>
+                <div class="avatar">
+                    <img src="./images/avatar.png" alt="avatar">
+                </div>
+                <div class="name"><h2>aliry</h2></div>
+                <div class="score"><h3>123</h3></div>
+            </div>
+
+        </div>
+        <div class="col-md-3 col-sm-6 text-center winner---second">
+            <div class="container" data-toggle="tooltip" data-placement="top" data-trigger="hover" title="نفر دوم" >
+                <div>
+                    <img src="./images/crown(1).png" alt="">
+                </div>
+                <div class="avatar">
+                    <img src="./images/avatar.png" alt="avatar">
+                </div>
+                <div class="name"><h2>aliry</h2></div>
+                <div class="score"><h3>123</h3></div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 text-center winner---third" >
+            <div class="container" data-toggle="tooltip" data-placement="top" data-trigger="hover" title="نفر سوم">
+                <div>
+                    <img src="./images/crown(2).png" alt="">
+                </div>
+                <div class="avatar">
+                    <img src="./images/avatar.png" alt="avatar">
+                </div>
+                <div class="name"><h2>aliry</h2></div>
+                <div class="score"><h3>123</h3></div>
+            </div>
+
+        </div>
+        <div class="col-md-3 col-sm-6 text-center winner---forth" >
+            <div class="container" data-toggle="tooltip" data-placement="top" data-trigger="hover" title="نفر چهارم">
+                <div>
+                    <img src="./images/crown(3).png" alt="">
+                </div>
+                <div class="avatar">
+                    <img src="./images/avatar.png" alt="avatar">
+                </div>
+                <div class="name"><h2>aliry</h2></div>
+                <div class="score"><h3>123</h3></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<% include ./partials/libs.ejs %>
+<% include ./partials/footer.ejs %>
+
+<script src="/JDate-master/build/jdate.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            method: "POST",
+            url : '/winners',
+            data : {_token: localStorage.getItem("token")},
+            success : function (data) {
+                var firstPlayer = data[0];
+                var secondPlayer = data[1];
+                var thirdPlayer = data[2];
+                var forthPlayer = data[3];
+
+                $(".winner---first .name h2").text(firstPlayer.nickname);
+                $(".winner---second .name h2").text(secondPlayer.nickname);
+                $(".winner---third .name h2").text(thirdPlayer.nickname);
+                $(".winner---forth .name h2").text(forthPlayer.nickname);
+
+                $(".winner---first .score h3").text(firstPlayer.winsCount);
+                $(".winner---second .score h3").text(secondPlayer.winsCount);
+                $(".winner---third .score h3").text(thirdPlayer.winsCount);
+                $(".winner---forth .score h3").text(forthPlayer.winsCount);
+
+                var hour= new Date();
+                var hourNow = hour.getHours();
+                var today = new Date();
+
+                if(hourNow >=21 && hourNow<=24){
+                    today.setDate(today.getDate());
+                }else {
+                    today.setDate(today.getDate()-1);
+                }
+
+                var JDate = require('jdate');
+                var jdate = new JDate(today);
+                var jdateDay = jdate.format('dddd DD MMMM YYYY')
+
+
+                $('.date-winner span').text(jdateDay);
+
+
+
+            }
+        })
+    });
+</script>

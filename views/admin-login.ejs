@@ -1,0 +1,105 @@
+<% include ./partials/head.ejs %>
+<script>
+//    var cookie = document.cookie;
+//    console.log(cookie)
+//    document.getElementById('aaaa').innerHTML = "";
+
+
+</script>
+
+<div class="container">
+    <div class="row have-padding">
+        <div class="content transparent">
+            <div class="login-wrapper col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12 col-xs-offset-0">
+                <div>
+                    <div class="text-center">
+                        <img alt="" src="/images/avatar.png" class="register-avatar">
+                    </div>
+                    <form method="post" action="/moliran-admin">
+
+                        <div class="text-center">
+                            <h3 class="register-title">ورود به سامانه</h3>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <label for="username">نام کاربری</label>
+                            <input type="text" class="form-control text-center dirltr" id="username"
+                                   name="username" value=""
+                                   placeholder="" required="required">
+                        </div>
+
+
+                        <div class="form-group text-center">
+                            <label for="password">رمز عبور</label>
+                            <input type="text" class="form-control text-center" id="password"
+                                   name="password" value=""
+                                   placeholder="" required="required">
+                        </div>
+
+
+                        <div class="form-group text-center">
+                            <input type="checkbox" name="rememberMe" id="rememberMe"
+                                   required="required" >
+                            <label for="rememberMe">مرا بخاطر بسپار</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary center-block" id="btn-register">بفرست</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ./partials/libs.ejs %>
+
+<script>
+    $(document).ready(function () {
+
+        var userInfArray = {
+            username : $("#username").val(),
+            password : $("#password").val(),
+            rememberMe : $('#rememberMe').val()
+        }
+
+        $("form").submit(function (e) {
+//            e.preventDefault();
+            $.ajax({
+                url:"/moliran-admin",
+                method:"POST",
+                data : userInfArray,
+                success : function (data, textStatus, request) {
+                    //console.log(request)
+                    var header = request.getResponseHeader("success");
+                    if (header =! true){
+                        alert(header)
+                    }
+                alert(request.getResponseHeader("success"));
+
+                },
+                error : function (err) {
+                    console.log(err)
+                }
+            });
+        });
+
+
+
+        $.ajax({
+            url:"/moliran-admin/info",
+            method:"POST",
+            data : userInfArray,
+            success : function (data) {
+                console.log(data)
+//                alert(request.getResponseHeader("success"));
+            },
+            error : function (err) {
+                console.log(err)
+            }
+        })
+
+    });
+</script>
+
+<% include ./partials/footer.ejs %>

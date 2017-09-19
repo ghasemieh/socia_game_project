@@ -1,0 +1,166 @@
+<% include ./partials/header.ejs %>
+
+<div class="container">
+    <div class="row">
+            <div class="col-xs-12">
+                <div class="content gameBoard">
+
+                <div class="timer timer-xo"></div>
+
+                <h4 class="your-opponent" style="display: none;">
+                    <span>حریف شما:</span>
+                    <span id="opponent"></span>
+                </h4>
+                <div id="card_board_game" class="clearfix text-center"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<% include ./partials/libs.ejs %>
+<script src="/javascripts/test_client_speed.js"></script>
+<script src="/javascripts/socket.io.min.js"></script>
+<script src="/javascripts/circular-countdown.min.js"></script>
+<script src="/javascripts/card-frontend-game.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var socket;
+        var url = window.location.href;
+        var arr = url.split("/");
+        var socketAddress = arr[0] + "//" + arr[2];
+
+        var token = localStorage.getItem('token');
+        if (!token) {
+            localStorage.setItem('continueUrl', window.location.href);
+            return window.location.href = '/login';
+        }
+
+        var gameLevel = '<%= gameLevel %>';
+
+        var codeConfirmationDescription = "لطفاً کُد داخل اس ام اس را وارد کنید!";
+        if (gameLevel === 'easy') {
+            codeConfirmationDescription += "<br>" + "برای بازی در مرحله ساده پس از وارد کردن کد تایید از حساب شما ۵۰۰ تومان کسر خواهد شد!";
+        } else if (gameLevel === 'normal') {
+            codeConfirmationDescription += "<br>" + "برای بازی در مرحله متوسط پس از وارد کردن کد تایید از حساب شما ۷۰۰ تومان کسر خواهد شد!";
+        } else if (gameLevel === 'hard') {
+            codeConfirmationDescription += "<br>" + "برای بازی در مرحله سخت پس از وارد کردن کد تایید از حساب شما ۹۰۰ تومان کسر خواهد شد!";
+        }
+
+        $(".se-pre-con").append("<p style='position: absolute;bottom: 50px;color: #ccc;left: 50%;transform: translateX(-50%);'>در حال تست سرعت اینترنت...</p>")
+        MeasureConnectionSpeed(function (speeds) {
+            if (speeds.Kbps < 64) {
+                $("body").append("<div class='speedlimit'><i class='fa fa-frown-o fa-3x'></i><p>متاسفانه سرعت اینترنت شما مناسب نیست!</p></div>");
+                console.log(speeds);
+                return false;
+            }
+        });
+        socket = io(socketAddress, {
+            query: 'token=' + token + '&gameType=' + '<%= gameType %>' + '&gameLevel=' + '<%= gameLevel %>'
+        });
+
+
+        socket.on('error', function (error) {
+//            console.log("error", error);
+            $("#loading").fadeOut(100);
+            swal({
+                title: "خطا",
+                text: error,
+                type: "error",
+                confirmButtonText: "خب",
+                cancelButtonText: "بازی‌ها",
+                showCancelButton: true,
+                allowOutsideClick: false,
+            }).then(function () {
+                refresh();
+            }, function (dismiss) {
+                if (dismiss === 'cancel') {
+                    return location.href = "/games";
+                }
+            });
+        });
+
+
+        var errorCodeStatus = null ;
+
+        socket.on("gameplayDeadlineReached",function (data) {
+            console.log(data);
+            errorCodeStatus = data.errorCode;
+        });
+
+
+        // disconnect socket
+        socket.on('disconnect', function (data) {
+            if (errorCodeStatus == null) {
+                swal({
+                    title: "خطا",
+                    text: "ارتباط با سرور قطع شد!",
+                    showConfirmButton: true,
+                    confirmButtonText: "تلاش دوباره",
+                    type: "error",
+                    allowOutsideClick: false
+                }).then(function () {
+                    refresh();
+                });
+
+            }else if(errorCodeStatus == 0){
+                swal({
+                    title: "خطا",
+                    text: "زمان بازی از 9 صبح تا 9 شب است",
+                    showConfirmButton: true,
+                    confirmButtonText: "بازگشت به خانه",
+                    type: "error",
+                    allowOutsideClick: false
+                }).then(function () {
+                    return location.href = "/"
+                });
+            }
+        });
+
+        socket.on('card_waitingForOpponent', function (data) {
+            console.log("card_waitingForOpponent", data)
+
+            $("#loading_title").html("منتظر یافتن حریف");
+            $("#loading_title").after('<a href="/games" class="btn" id="giveUp">بی خیال</a>').delay(500);
+            $("#loading").fadeIn(100);
+        });
+
+        socket.on('userNeedCharging', function () {
+            socket.disconnect();
+            return window.location.href = socketAddress + '/charge';
+        });
+
+        socket.on('card_nextStep', function (data) {
+//            console.log("card_nextStep", data);
+            $("#giveUp").remove();
+            createBoard(data, socket);
+        });
+
+        $(document).on('click', '.card', function () {
+            if ($(this).find('i').hasClass('done')) {
+                swal({
+                    title: "خطا",
+                    text: "این خانه را نمی توانید انتخاب کنید!",
+                    type: "warning",
+                    confirmButtonText: "خـُــب"
+                });
+            } else {
+//                $("#loading").fadeIn(100);
+                $("#loading div h5").html("");
+                var str = $(this).attr('id');
+                var res = str.split("-");
+                socket.emit('card_flipCard', {'i': res[1], 'j': res[2]});
+            }
+
+        });
+
+    });
+
+</script>
+
+<% include ./partials/footer.ejs %>
