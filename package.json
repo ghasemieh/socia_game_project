@@ -16,7 +16,7 @@
     "jsonwebtoken": "^7.4.1",
     "localize": "^0.4.7",
     "mongoose": "^4.11.1",
-    "morgan": "^1.7.0",
+    "morgan": "^1.9.1",
     "myspeed": "^1.0.2",
     "node-schedule": "^1.2.4",
     "node-uuid": "^1.4.8",
