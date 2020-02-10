@@ -15,7 +15,7 @@
     "ipaddr.js": "^1.3.0",
     "jsonwebtoken": "^7.4.1",
     "localize": "^0.4.7",
-    "mongoose": "^4.11.1",
+    "mongoose": "^5.7.5",
     "morgan": "^1.7.0",
     "myspeed": "^1.0.2",
     "node-schedule": "^1.2.4",
